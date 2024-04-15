@@ -28,7 +28,7 @@
   <link name="${base_frame}">
     <visual>
       <geometry>
-        <mesh filename="package://turtlebot4_description/meshes/${name}_${model}.dae" scale="1 1 1" />
+        <mesh filename="package://turtlebot4_description/meshes/oakd_${model}.dae" scale="1 1 1" />
       </geometry>
     </visual>
     <collision>

@@ -77,7 +77,7 @@ def generate_launch_description():
 
     # Paths
     turtlebot4_ros_ign_bridge_launch = PathJoinSubstitution(
-        [pkg_turtlebot4_ignition_bringup, 'launch', 'ros_ign_bridge.launch.py'])
+        [pkg_turtlebot4_description, 'launch', 'ros_ign_bridge.launch.py'])
     rviz_launch = PathJoinSubstitution(
         [pkg_turtlebot4_viz, 'launch', 'view_robot.launch.py'])
     turtlebot4_node_launch = PathJoinSubstitution(
@@ -228,6 +228,23 @@ def generate_launch_description():
                 '1.5707', '-1.5707', '0',
                 'oakd_rgb_camera_optical_frame',
                 [robot_name, '/oakd_rgb_camera_frame/rgbd_camera']
+            ],
+            remappings=[
+                ('/tf', 'tf'),
+                ('/tf_static', 'tf_static'),
+            ]
+        ),
+
+        Node(
+            name='camera2_stf',
+            package='tf2_ros',
+            executable='static_transform_publisher',
+            output='screen',
+            arguments=[
+                '0', '0', '0',
+                '1.5707', '-1.5707', '0',
+                'top_camera_rgb_camera_optical_frame',
+                [robot_name, '/top_camera_rgb_camera_frame/rgbd_camera']
             ],
             remappings=[
                 ('/tf', 'tf'),

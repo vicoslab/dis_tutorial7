@@ -2,13 +2,13 @@
 <robot name="turtlebot4" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Base create3 model -->
   <xacro:include filename="$(find irobot_create_description)/urdf/create3.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/sensors/rplidar.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/sensors/oakd.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/sensors/camera_bracket.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/standard/tower_standoff.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/standard/tower_sensor_plate.urdf.xacro" />
-  <xacro:include filename="$(find turtlebot4_description)/urdf/standard/weight_block.urdf.xacro" />
-  <xacro:include filename="$(find dis_tutorial7)/urdf/arm/arm.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/rplidar.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/oakd.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/camera_bracket.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_standoff.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_sensor_plate.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/standard/weight_block.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/arm/arm_demo.urdf.xacro" />
 
 
   <!-- Mechanical properties -->
@@ -126,9 +126,16 @@
     <origin xyz="${oakd_pro_x_offset} ${oakd_pro_y_offset} ${oakd_pro_z_offset}"/>
   </xacro:oakd>
 
-  <xacro:simple_arm parent_link="shell_link">
-    <origin xyz="0 0 0.5"
-            rpy="0 0 ${pi/2}"/>
-  </xacro:simple_arm>
 
+  <xacro:oakd name="top_camera" model="pro" parent_link="oakd_camera_bracket">
+    <origin xyz="0.35 0 0.35" rpy="0 ${pi/2} 0"/>
+  </xacro:oakd>
+ <!--  -->
+
+<!--
+  <xacro:simple_arm parent_link="shell_link">
+    <origin xyz="0 0 1."
+            rpy="0 0 0"/>
+  </xacro:simple_arm>
+ -->
 </robot>

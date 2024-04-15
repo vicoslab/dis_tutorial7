@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:macro name="simple_arm" params="parent_link *origin">
+  <xacro:include filename="$(find irobot_create_description)/urdf/common_properties.urdf.xacro"/>
+
+
+  <joint name="arm_base_joint" type="fixed">
+    <parent link="${parent_link}"/>
+    <child link="arm_base_link"/>
+    <xacro:insert_block name="origin"/>
+  </joint>
+
+
+  <link name='arm_base_link'>
+      <xacro:inertial_cylinder mass="0.17" radius="0.1" length="0.1"/>
+
+      <collision name="arm_base_link_collision">
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder radius="0.1" length="0.1"/>
+        </geometry>
+      </collision>
+
+      <visual name='arm_base_link_visual'>
+        <pose>0 0 0 0 0 0</pose>
+        <geometry>
+          <cylinder radius="0.1" length="0.1"/>
+        </geometry>
+        <material name="black">
+          <diffuse>0.05 0.05 0.05</diffuse>
+        </material>
+      </visual>
+    </link>
+
+
+    <link name='lower_arm_link'>
+      <pose relative_to='arm_base_link'>0.375 0.0 0.0 0 1.570796 0</pose>
+      <xacro:inertial_cylinder mass="0.17" radius="0.1" length="0.75"/>
+
+
+      <collision name='lower_link_collision'>
+        <geometry>
+          <cylinder radius="0.1" length="0.5"/>
+        </geometry>
+      </collision>
+
+      <visual name='lower_link_visual'>
+        <geometry>
+          <cylinder radius="0.1" length="0.75"/>
+        </geometry>
+        <material name="black">
+          <diffuse>0.05 0.05 0.05</diffuse>
+        </material>
+      </visual>
+    </link>
+
+
+    <frame name="gripper_mount_point">
+      <pose relative_to='joint_2'>0.0 0 0 0 0 0</pose>
+    </frame>
+
+    <joint name='joint_0' type='revolute'>
+      <pose relative_to='arm_base_link'>0.0 0.0 0.0 0 0 0</pose>
+      <parent link="arm_base_link"/>
+      <child link="lower_arm_link"/>
+      <axis>
+        <xyz>0 -1 0</xyz>
+      </axis>
+      <limit effort="500" velocity="0.15" lower="-1.570796" upper="1.5707896"/>
+    </joint>
+
+    <!-- Controller -->
+    <plugin
+      filename="ignition-gazebo-joint-position-controller-system"
+      name="ignition::gazebo::systems::JointPositionController">
+      <joint_name>joint_0</joint_name>
+      <topic>/arm/joint_0</topic>
+      <use_velocity_commands>true</use_velocity_commands>
+      <initial_position>0.5</initial_position>
+    </plugin>
+
+
+    <!-- Joint state publisher -->
+    <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
+      <joint_name>joint_0</joint_name>
+    </plugin>
+
+    <frame name="arm_mount_point"/>
+
+  </xacro:macro>
+</robot>
