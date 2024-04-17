@@ -8,7 +8,7 @@
   <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_standoff.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_sensor_plate.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/standard/weight_block.urdf.xacro" />
-  <xacro:include filename="$(find dis_tutorial7)/urdf/arm/arm_demo.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/arm/arm_demo2.urdf.xacro" />
 
 
   <!-- Mechanical properties -->
@@ -126,16 +126,26 @@
     <origin xyz="${oakd_pro_x_offset} ${oakd_pro_y_offset} ${oakd_pro_z_offset}"/>
   </xacro:oakd>
 
-
   <xacro:oakd name="top_camera" model="pro" parent_link="oakd_camera_bracket">
     <origin xyz="0.35 0 0.35" rpy="0 ${pi/2} 0"/>
   </xacro:oakd>
- <!--  -->
-
-<!--
+ 
   <xacro:simple_arm parent_link="shell_link">
-    <origin xyz="0 0 1."
+    <origin xyz="0 0 1"
             rpy="0 0 0"/>
   </xacro:simple_arm>
- -->
+
+    <gazebo>
+      <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
+        <parameters>$(find dis_tutorial7)/config/all_controls.yaml</parameters>
+        <ros>
+          <remapping>~/odom:=odom</remapping>
+          <remapping>/tf:=tf</remapping>
+          <remapping>/tf_static:=tf_static</remapping>
+          <remapping>/diagnostics:=diagnostics</remapping>
+          <namespace>$(arg namespace)</namespace>
+        </ros>
+      </plugin>
+    </gazebo>
+  
 </robot>

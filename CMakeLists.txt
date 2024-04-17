@@ -22,12 +22,13 @@ install(DIRECTORY
   launch
   meshes
   urdf
+  config
   DESTINATION share/${PROJECT_NAME}/
 )
 
-#install(PROGRAMS
-#  scripts/detect_people.py
+install(PROGRAMS
+  scripts/set_arm_configuration.py
 #  scripts/robot_commander.py
-#  DESTINATION lib/${PROJECT_NAME})
+  DESTINATION lib/${PROJECT_NAME})
 
 ament_package()

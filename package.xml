@@ -3,7 +3,7 @@
 <package format="3">
   <name>dis_tutorial7</name>
   <version>0.0.1</version>
-  <description>DIS tutorial 3 packages - Simulation of Turtlebot4 in a custom obstacle course.</description>
+  <description>DIS tutorial 7 packages - Simulation of a Turtlebot4 with an added robotic arm and a camera.</description>
   <maintainer email="matej.dobrevski@fri.uni-lj.si">Matej</maintainer>
   <maintainer email="vid.rijavec@fri.uni-lj.si">Vid</maintainer>
   <maintainer email="jon.muhovic@fe.uni-lj.si">Jon</maintainer>

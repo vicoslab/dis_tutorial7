@@ -4,6 +4,7 @@
   <xacro:macro name="simple_arm" params="parent_link *origin">
   <xacro:include filename="$(find irobot_create_description)/urdf/common_properties.urdf.xacro"/>
 
+  <xacro:property name="M_PI"     value="3.1415926535897931" />
 
   <joint name="arm_base_joint" type="fixed">
     <parent link="${parent_link}"/>
@@ -13,19 +14,19 @@
 
 
   <link name='arm_base_link'>
-      <xacro:inertial_cylinder mass="0.17" radius="0.1" length="0.1"/>
+      <xacro:inertial_cylinder mass="0.17" radius="0.05" length="0.02"/>
 
       <collision name="arm_base_link_collision">
         <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <cylinder radius="0.1" length="0.1"/>
+          <cylinder radius="0.05" length="0.02"/>
         </geometry>
       </collision>
 
       <visual name='arm_base_link_visual'>
         <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <cylinder radius="0.1" length="0.1"/>
+          <cylinder radius="0.05" length="0.02"/>
         </geometry>
         <material name="black">
           <diffuse>0.05 0.05 0.05</diffuse>
@@ -35,19 +36,20 @@
 
 
     <link name='lower_arm_link'>
-      <pose relative_to='arm_base_link'>0.375 0.0 0.0 0 1.570796 0</pose>
-      <xacro:inertial_cylinder mass="0.17" radius="0.1" length="0.75"/>
-
+     <!-- <pose relative_to='arm_base_link'>0.375 0.0 0.0 0 1.570796 0</pose>-->
+    <xacro:inertial_cylinder mass="0.17" radius="0.01" length="0.5"/>
 
       <collision name='lower_link_collision'>
+      <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <cylinder radius="0.1" length="0.5"/>
+          <cylinder radius="0.01" length="0.5"/>
         </geometry>
       </collision>
 
       <visual name='lower_link_visual'>
+      <pose>0 0 0 0 0 0</pose>
         <geometry>
-          <cylinder radius="0.1" length="0.75"/>
+          <cylinder radius="0.01" length="0.5"/>
         </geometry>
         <material name="black">
           <diffuse>0.05 0.05 0.05</diffuse>
@@ -61,36 +63,39 @@
     </frame>-->
 
     <joint name='joint_0' type='revolute'>
-      <pose relative_to='arm_base_link'>0.0 0.0 0.0 0 0 0</pose>
+      <origin xyz="0.25 0 0.1" rpy="0 ${M_PI/2} 0"/>
       <parent link="arm_base_link"/>
       <child link="lower_arm_link"/>
-      <axis>
-        <xyz>0 -1 0</xyz>
-      </axis>
-      <limit effort="500" velocity="0.15" lower="-1.570796" upper="1.5707896"/>
-    </joint>
+      <axis xyz="0 0 1"/>
+      <limit effort="500" velocity="10" lower="-${M_PI}" upper="${M_PI}"/>
+    </joint> 
 
-    <!-- Controller -->
-    <plugin
-      filename="ignition-gazebo-joint-position-controller-system"
-      name="ignition::gazebo::systems::JointPositionController">
-      <joint_name>joint_0</joint_name>
-      <topic>/arm/joint_0</topic>
-      <use_velocity_commands>true</use_velocity_commands>
-      <initial_position>0.5</initial_position>
-    </plugin>
-
-
-    <!-- Joint state publisher -->
-    <plugin filename="libignition-gazebo-joint-state-publisher-system.so" name="ignition::gazebo::systems::JointStatePublisher">
-      <joint_name>joint_0</joint_name>
-    </plugin>
-
-    <frame name="arm_mount_point"/>
+<!--
+  <joint name="joint_0" type="fixed">
+    <parent link="arm_base_link"/>
+    <child link="lower_arm_link"/>
+    <origin xyz="0.25 0 0.02" rpy="0 ${M_PI/2} 0"/>
+  </joint>
+--> 
 
   <gazebo reference="arm_base_joint">
     <preserveFixedJoint>true</preserveFixedJoint>
   </gazebo>
 
+
+  <ros2_control name="arm_controller_hw" type="system">
+    <hardware>
+      <plugin>ign_ros2_control/IgnitionSystem</plugin>
+    </hardware>
+    <joint name="joint_0">
+      <command_interface name="position">
+        <param name="min">-3.14</param>
+        <param name="max">3.14</param>
+      </command_interface>
+      <state_interface name="position"/>
+      <state_interface name="velocity"/>
+    </joint>
+  </ros2_control>
+<!-- -->
   </xacro:macro>
 </robot>
