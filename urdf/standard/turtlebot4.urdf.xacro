@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <robot name="turtlebot4" xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- Base create3 model -->
-  <xacro:include filename="$(find irobot_create_description)/urdf/create3.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/create/create3.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/rplidar.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/oakd.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/camera_bracket.urdf.xacro" />
