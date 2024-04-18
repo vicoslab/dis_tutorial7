@@ -2,7 +2,7 @@
 
 #### Development of Inteligent Systems, 2024
 
-This exercise will show a few examples of how to use the [Point Cloud Library (PCL)](https://pointclouds.org/) and OpenCV to extract information from the RGBD camera. The PCL project contains a large number of [tutorials](https://pcl.readthedocs.io/projects/tutorials/en/master/) demonstrating how to use the library. From the code in this tutorial you can extrapolete how to use the PCL library in ROS2. For out purposes, the tutorials on PointCloud [segmentation](https://pcl.readthedocs.io/projects/tutorials/en/master/#segmentation) are the most relevant. The given examples use the RANSAC algorithm to find planes and cylinders, and extract the inliers. 
+Currently there is a static camera added to the robot. It is looking top down, to be used for the parking procedure.
 
 ## Install packages
 
@@ -12,6 +12,11 @@ sudo apt install ros-humble-ros2-control ros-humble-ros2-controllers ros-humble-
 ```
 
 ## Start robot with additional camera
+
+You can start the simulatation with:
+
 ```
 ros2 launch dis_tutorial7 sim_turtlebot_nav.launch.py
 ```
+
+One the simulation is running, you can notice there is an additional camera in front of the robot. This camera can be accessed the same way the `oakd` camera is accessed (the same topics are available), but the prefix is `top_camera`.
