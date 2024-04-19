@@ -5,7 +5,7 @@
 
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument, RegisterEventHandler
+from launch.actions import DeclareLaunchArgument, RegisterEventHandler, ExecuteProcess
 from launch.conditions import LaunchConfigurationNotEquals
 from launch.event_handlers import OnProcessExit
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
@@ -34,6 +34,12 @@ def generate_launch_description():
         output='screen',
     )
 
+    load_diffdrive_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'diffdrive_controller'],
+        output='screen'
+    )
+
     arm_controller_node = Node(
         package='controller_manager',
         executable='spawner',
@@ -41,6 +47,12 @@ def generate_launch_description():
         parameters=[control_params_file],
         arguments=['arm_controller', '-c', 'controller_manager'],
         output='screen',
+    )
+
+    load_arm_controller = ExecuteProcess(
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
+             'arm_controller'],
+        output='screen'
     )
 
     joint_state_broadcaster_spawner = Node(
@@ -64,6 +76,7 @@ def generate_launch_description():
             on_exit=[arm_controller_node]
         )
     )
+
 
     # Static transform from <namespace>/odom to odom
     # See https://github.com/ros-controls/ros2_controllers/pull/533

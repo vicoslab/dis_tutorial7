@@ -79,7 +79,7 @@ def generate_launch_description():
     turtlebot4_ros_ign_bridge_launch = PathJoinSubstitution(
         [this_package, 'launch', 'ros_ign_bridge.launch.py'])
     rviz_launch = PathJoinSubstitution(
-        [pkg_turtlebot4_viz, 'launch', 'view_robot.launch.py'])
+        [this_package, 'launch', 'view_robot.launch.py'])
     turtlebot4_node_launch = PathJoinSubstitution(
         [pkg_turtlebot4_ignition_bringup, 'launch', 'turtlebot4_nodes.launch.py'])
     create3_nodes_launch = PathJoinSubstitution(

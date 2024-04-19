@@ -4,7 +4,7 @@
 <xacro:macro name="oakd" params="name:=oakd parent_link *origin model:=pro">
   <xacro:include filename="$(find irobot_create_description)/urdf/common_properties.urdf.xacro"/>
 
-  <xacro:property name="mass"       value="0.061"/>
+  <xacro:property name="mass"       value="0.001"/>
   <xacro:property name="baseline" value="0.075" />
   <xacro:property name="M_PI"     value="3.1415926535897931" />
 
@@ -31,12 +31,12 @@
         <mesh filename="package://turtlebot4_description/meshes/oakd_${model}.dae" scale="1 1 1" />
       </geometry>
     </visual>
-    <collision>
+   <!-- <collision>
       <origin xyz="${collision_offset_x} ${collision_offset_y} ${collision_offset_z}"/>
       <geometry>
         <box size="${collision_length_x} ${collision_length_y} ${collision_length_z}"/>
       </geometry>
-    </collision>
+    </collision>-->
     <inertial>
       <mass value="${mass}"/>
       <inertia ixx="0.00000202475" ixy="0.0" ixz="0.0"

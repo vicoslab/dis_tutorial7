@@ -14,7 +14,7 @@
 
 
   <link name='arm_base_link'>
-      <xacro:inertial_cylinder mass="0.17" radius="0.05" length="0.02"/>
+      <xacro:inertial_cylinder mass="0.01" radius="0.05" length="0.02"/>
 
       <collision name="arm_base_link_collision">
         <pose>0 0 0 0 0 0</pose>
@@ -34,10 +34,18 @@
       </visual>
     </link>
 
+    <joint name='joint_0' type='revolute'>
+      <origin xyz="0.25 0 0.1" rpy="0 ${M_PI/2} 0"/>
+      <parent link="arm_base_link"/>
+      <child link="lower_arm_link"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="500" velocity="10" lower="-${M_PI}" upper="${M_PI}"/>
+    </joint> 
+
 
     <link name='lower_arm_link'>
      <!-- <pose relative_to='arm_base_link'>0.375 0.0 0.0 0 1.570796 0</pose>-->
-    <xacro:inertial_cylinder mass="0.17" radius="0.01" length="0.5"/>
+    <xacro:inertial_cylinder mass="0.01" radius="0.01" length="0.5"/>
 
       <collision name='lower_link_collision'>
       <pose>0 0 0 0 0 0</pose>
@@ -57,18 +65,9 @@
       </visual>
     </link>
 
-
    <!-- <frame name="gripper_mount_point">
       <pose relative_to='joint_2'>0.0 0 0 0 0 0</pose>
     </frame>-->
-
-    <joint name='joint_0' type='revolute'>
-      <origin xyz="0.25 0 0.1" rpy="0 ${M_PI/2} 0"/>
-      <parent link="arm_base_link"/>
-      <child link="lower_arm_link"/>
-      <axis xyz="0 0 1"/>
-      <limit effort="500" velocity="10" lower="-${M_PI}" upper="${M_PI}"/>
-    </joint> 
 
 <!--
   <joint name="joint_0" type="fixed">
@@ -77,11 +76,11 @@
     <origin xyz="0.25 0 0.02" rpy="0 ${M_PI/2} 0"/>
   </joint>
 --> 
-
+<!--
   <gazebo reference="arm_base_joint">
     <preserveFixedJoint>true</preserveFixedJoint>
   </gazebo>
-
+--> 
 
   <ros2_control name="arm_controller_hw" type="system">
     <hardware>

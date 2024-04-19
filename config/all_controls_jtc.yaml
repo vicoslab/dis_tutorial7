@@ -10,7 +10,7 @@
         type: diff_drive_controller/DiffDriveController
 
       arm_controller:
-        type: forward_command_controller/ForwardCommandController
+        type: joint_trajectory_controller/JointTrajectoryController
 
   arm_controller:
     ros__parameters:
@@ -19,7 +19,11 @@
         - arm_shoulder_joint
         - arm_elbow_joint
         - arm_wrist_joint
-      interface_name: position
+      command_interfaces:
+        - position
+      state_interfaces:
+        - position
+        - velocity
 
   diffdrive_controller:
     ros__parameters:

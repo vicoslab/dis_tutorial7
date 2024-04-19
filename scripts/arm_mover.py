@@ -36,16 +36,19 @@ class ArmMover(Node):
         self.timer = self.create_timer(timer_period, self.timer_callback)
 
         # Predefined positions for the robot arm
-        self.arm_poses = {'reatracted':[0.,0.,0.,0.,0.],
-                          'look_for_parking':[0.,0.,0.,0.,0.],
-                          'look_for_qr':[0.,0.,0.,0.,0.],
-                          'test':[1.5]}
+        self.joint_names = ['arm_base_joint', 'arm_shoulder_joint', 'arm_elbow_joint', 'arm_wrist_joint']
+        self.arm_poses = {'look_for_parking':[0.,0.,0.,0.],
+                          'look_for_qr':[0.,0.,0.,0.],
+                          'park':[0.,-0.45,2.8,-0.8],
+                          'up':[0.,0.,0.,0.]}
 
         self.get_logger().info(f"Initialized the Arm Mover node! Waiting for commands...")
 
 
     def timer_callback(self):
-        if self.new_command_arrived and self.current_command != self.previous_command:
+        # if self.new_command_arrived and self.current_command != self.previous_command:
+        if self.new_command_arrived:
+
             pos_msg = self.arm_command_string_to_msg(self.current_command)
             self.arm_position_pub.publish(pos_msg)
 
@@ -71,12 +74,12 @@ class ArmMover(Node):
 
         point = JointTrajectoryPoint()
         point.positions = positions
-        point.time_from_start = rclpy.duration.Duration(seconds=1.).to_msg()
+        point.time_from_start = rclpy.duration.Duration(seconds=3.).to_msg()
 
         pos_msg = JointTrajectory()
         pos_msg.header.stamp = self.get_clock().now().to_msg()
 
-        pos_msg.joint_names = ['joint_0']
+        pos_msg.joint_names = self.joint_names
         pos_msg.points.append(point)
 
         return pos_msg
