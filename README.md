@@ -43,14 +43,11 @@ self.arm_poses = {'look_for_parking':[0.,0.4,1.5,1.2],
                   'manual':None}
 ```
 
-This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a position that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these postions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
+This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a configuration that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these postions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
 
-Configuration 'lood_for_parking'    |  The image from the topic
+Configuration 'look_for_parking'    |  The image from the topic
 :-------------------------:|:-------------------------:
 ![](figs/arm_look_for_parking.png)  |  ![](figs/arm_camera_image_parking.png)
-
-## Setting the arm position 'manually'
-The last key in the dictionary - "manual" is there for debugging purposes, so that you are able to quicly test a configuration of the arm.
 
 The position of the arm should be set from your code, and you can test the positions by using the 'ros2 topic' interface:
 ```
@@ -64,8 +61,17 @@ or
 ```
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: look_for_qr}"
 ```
+or
+```
+ros2 topic pub --once /arm_command std_msgs/msg/String "{data: up}"
+```
 
-Be careful when using the "manual" keyword, as you can easily crash the node with the wrong format. To set a manual position send a `String` message in the format 'manual:[pos1, pos2, pos3, pos3]' where pos1-4 are floats (the numbers should contain a . ). For example:
+You can add configuration by simply updating the `self.arm_poses` dictionary.
+
+## Setting the arm position 'manually'
+The last key in the dictionary - "manual" is there for debugging purposes, so that you are able to quickly test a configuration of the arm.
+
+Be careful when using the "manual" keyword, as you can easily crash the node with the wrong format message. To set a manual position send a `String` message in the format 'manual:[pos1, pos2, pos3, pos3]' where pos1-4 are floats (the numbers should contain a . ). For example:
 ```
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: 'manual:[0.,0.6,0.5,2.0]'}"
 ```
