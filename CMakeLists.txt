@@ -27,7 +27,7 @@ install(DIRECTORY
 )
 
 install(PROGRAMS
-  scripts/arm_mover.py
+  scripts/arm_mover_actions.py
 #  scripts/robot_commander.py
   DESTINATION lib/${PROJECT_NAME})
 

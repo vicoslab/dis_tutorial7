@@ -137,7 +137,7 @@
 
     <gazebo>
       <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">
-        <parameters>$(find dis_tutorial7)/config/all_controls.yaml</parameters>
+        <parameters>$(find dis_tutorial7)/config/all_controls_jtc.yaml</parameters>
         <ros>
           <remapping>~/odom:=odom</remapping>
           <remapping>/tf:=tf</remapping>

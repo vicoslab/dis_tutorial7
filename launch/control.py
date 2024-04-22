@@ -23,7 +23,7 @@ def generate_launch_description():
     namespace = LaunchConfiguration('namespace')
 
     control_params_file = PathJoinSubstitution(
-        [this_package, 'config', 'all_controls.yaml'])
+        [this_package, 'config', 'all_controls_jtc.yaml'])
 
     diffdrive_controller_node = Node(
         package='controller_manager',

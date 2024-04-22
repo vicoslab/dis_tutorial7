@@ -40,10 +40,11 @@ class ArmMoverAction(Node):
 
         # Predefined positions for the robot arm
         self.joint_names = ['arm_base_joint', 'arm_shoulder_joint', 'arm_elbow_joint', 'arm_wrist_joint']
-        self.arm_poses = {'look_for_parking':[0.,0.,0.,0.],
-                          'look_for_qr':[0.,0.,0.,0.],
-                          'park':[0.,-0.45,2.8,-0.8],
-                          'up':[0.,0.,0.,0.]}
+        self.arm_poses = {'look_for_parking':[0.,0.4,1.5,1.2],
+                          'look_for_qr':[0.,0.6,0.5,2.0],
+                          'garage':[0.,-0.45,2.8,-0.8],
+                          'up':[0.,0.,0.,0.],
+                          'manual':None}
 
         self.get_logger().info(f"Initialized the Arm Mover node! Waiting for commands...")
 
@@ -55,7 +56,14 @@ class ArmMoverAction(Node):
             self.get_logger().info("'Arm controller' action server not available, waiting...")
 
         point = JointTrajectoryPoint()
-        point.positions = self.arm_poses[command_string]
+
+        command = self.arm_poses[command_string.split(':')[0]] # Only beacause we want to detect manual setting of position
+        # self.get_logger().info(f"Recieved command {command}")
+        if command is None:
+            self.get_logger().info(f"Recieved command MANUAL command {command_string.split(':')[1]}")
+            point.positions = eval(command_string.split(':')[1])
+        else:
+            point.positions = command
         point.time_from_start = rclpy.duration.Duration(seconds=3.).to_msg()
 
         goal_msg = FollowJointTrajectory.Goal()
@@ -63,7 +71,7 @@ class ArmMoverAction(Node):
         goal_msg.trajectory.joint_names = self.joint_names
         goal_msg.trajectory.points.append(point)
 
-        self.get_logger().info(f'Sending a goal to the action server, position is {self.arm_poses[command_string]}, command {command_string}')
+        self.get_logger().info(f'Sending a goal to the action server, position is {command}')
         self.send_goal_future = self.arm_position_client.send_goal_async(goal_msg)
         self.send_goal_future.add_done_callback(self.goal_accepted_callback)
 
@@ -100,21 +108,22 @@ class ArmMoverAction(Node):
 
             self.set_arm_position(self.current_command)
 
-            self.get_logger().info(f"Will set a new position for the arm joints: {self.arm_poses[self.current_command]}")
+            self.get_logger().info(f"Will set a new position for the arm joints: {self.current_command}")
 
             self.previous_command = self.current_command
             self.new_command_arrived = False
         
 
     def arm_command_callback(self, msg):
-        command = msg.data.strip().lower()
+        command_string = msg.data.strip().lower()
+        command_test = msg.data.strip().lower().split(":")[0] # Split is only needed to be able to set a position manually
 
-        assert command in list(self.arm_poses.keys())
+        assert command_test in list(self.arm_poses.keys())
 
-        self.current_command = command
+        self.current_command = command_string
         self.new_command_arrived = True
 
-        self.get_logger().info(f"Got a new command for the arm configuration: {command}")
+        self.get_logger().info(f"Got a new command for the arm configuration: {command_string}")
 
 
     # def arm_command_string_to_msg(self, command_string):
