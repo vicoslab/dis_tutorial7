@@ -2,7 +2,7 @@
 
 #### Development of Inteligent Systems, 2024
 
-This tutorial contains a modified robot, with an added robot arm with a camera. You can move the arm as you wish, placing the camera at a convinient position. This is mainly meant for the parking task and for reading the QR on top of the cylinder, but you are welcome to use it as you wish.
+This tutorial contains a modified robot, with an added robot arm with a camera. You can move the arm as you wish, placing the camera at a convenient position. This is mainly meant for the parking task and for reading the QR on top of the cylinder, but you are welcome to use it as you wish.
 
 ![](figs/robot_with_arm.png)
 *You should see the robot in this configuration after starting the simulation*
@@ -25,7 +25,7 @@ Once the simulation is running you can notice there is an additional camera on t
 
 ![](figs/arm_controller_started.png)
 
-You can modify the launch file `sim_turtlebot_nav.launch.py` the same as the one in dis_tutorial3. The main difference is that this one loads a lot of the launch files from this packages, instead of the system installed ones. This is necessairy in order to load all the things we need to load for the robot arm to work.
+You can modify the launch file `sim_turtlebot_nav.launch.py` the same as the one in dis_tutorial3. The main difference is that this one loads a lot of the launch files from this package, instead of the system installed ones. This is necessary in order to load all the things we need to load for the robot arm to work.
 
 ## Setting the arm position
 
@@ -66,7 +66,7 @@ or
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: up}"
 ```
 
-You can add configuration by simply updating the `self.arm_poses` dictionary.
+You can add configurations by simply updating the `self.arm_poses` dictionary.
 
 ## Setting the arm position 'manually'
 The last key in the dictionary - "manual" is there for debugging purposes, so that you are able to quickly test a configuration of the arm.
