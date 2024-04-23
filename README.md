@@ -75,3 +75,12 @@ Be careful when using the "manual" keyword, as you can easily crash the node wit
 ```
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: 'manual:[0.,0.6,0.5,2.0]'}"
 ```
+
+## Some notes
+
+**This is a 4DOF arm**. All the joints are rotational. The commands set the rotation of each joint in sequence. The first practically rotates about the Z axis of the robot (same as the robot). The other three joints rotate about a vector which is normal to the Z axis of the robot. The axis of each joint are visualized in Rviz, you can also take a look at the arm definition in `/urdf/arm/arm.urdf.xacro`.
+
+**The arm does not respect the laws of physics**. In order to computationally simplify the simulation and reduce the planning complexity, the arm is not simulated realistically. It has no collision geometry, its mass/inertia is negligible, and its joints have no angle limitations. This can enable you to put the arm in some weird configurations. You are welcomed to play with it, but it has not be extensively tested and some configurations might break the simulation. In evaluation phase, it is best to stick to tested configurations.
+
+**The controller has more capabilities then used**. The `joint_trajectory_controller/JointTrajectoryController` used for controlling the rotations of the joints make the arm follow trajectories, not only reach a single position. The `arm_mover_actions.py` script only sets a single position in the trajectory, but you can modify it to follow a set of consequtive positions. Additionally, you can also change the time in which the controller should reach the position. This is set in the line `point.time_from_start = rclpy.duration.Duration(seconds=3.).to_msg()` in the `arm_mover_actions.py` script.
+`
