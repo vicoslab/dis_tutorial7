@@ -4,6 +4,7 @@
   <xacro:include filename="$(find dis_tutorial7)/urdf/create/create3.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/rplidar.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/oakd.urdf.xacro" />
+  <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/top_camera.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/sensors/camera_bracket.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_standoff.urdf.xacro" />
   <xacro:include filename="$(find dis_tutorial7)/urdf/standard/tower_sensor_plate.urdf.xacro" />
@@ -131,9 +132,9 @@
             rpy="0 0 0"/>
   </xacro:simple_arm>
 
-  <xacro:oakd name="top_camera" model="pro" parent_link="arm_wrist_link">
+  <xacro:top_camera name="top_camera" model="pro" parent_link="arm_wrist_link">
     <origin xyz="0 0 0.065" rpy="0 -${pi/2} 0"/>
-  </xacro:oakd>
+  </xacro:top_camera>
 
     <gazebo>
       <plugin filename="libign_ros2_control-system.so" name="ign_ros2_control::IgnitionROS2ControlPlugin">

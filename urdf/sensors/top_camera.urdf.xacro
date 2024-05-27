@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
-<xacro:macro name="oakd" params="name:=oakd parent_link *origin model:=pro">
+<xacro:macro name="top_camera" params="name:=top_camera parent_link *origin model:=pro">
   <xacro:include filename="$(find irobot_create_description)/urdf/common_properties.urdf.xacro"/>
 
   <xacro:property name="mass"       value="0.001"/>
@@ -125,8 +125,8 @@
       <camera>
         <horizontal_fov>1.25</horizontal_fov>
         <image>
-          <width>640</width>
-          <height>480</height>
+          <width>320</width>
+          <height>240</height>
         </image>
         <clip>
           <near>0.3</near>
