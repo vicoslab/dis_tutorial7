@@ -1,6 +1,6 @@
 # Tutorial 7: Adding a robot arm and a camera to the Turtlebot4
 
-#### Development of Inteligent Systems, 2024
+#### Development of Intelligent Systems, 2024
 
 This tutorial contains a modified robot, with an added robot arm with a camera. You can move the arm as you wish, placing the camera at a convenient position. This is mainly meant for the parking task and for reading the QR on top of the cylinder, but you are welcome to use it as you wish.
 
@@ -29,7 +29,7 @@ You can modify the launch file `sim_turtlebot_nav.launch.py` the same as the one
 
 ## Setting the arm position
 
-The node `arm_mover_actions.py` is a node that you can use to set the arm positon in a simple way. The node is communicating with the `arm_controller` through an action interface, just like we set a goal for the robot in the Nav2 stack (tutorials 3 and 4). You can include this node in some launch file, or start it with `ros2 run`:
+The node `arm_mover_actions.py` is a node that you can use to set the arm position in a simple way. The node is communicating with the `arm_controller` through an action interface, just like we set a goal for the robot in the Nav2 stack (tutorials 3 and 4). You can include this node in some launch file, or start it with `ros2 run`:
 ```
 ros2 run dis_tutorial7 arm_mover_actions.py
 ```
@@ -43,7 +43,7 @@ self.arm_poses = {'look_for_parking':[0.,0.4,1.5,1.2],
                   'manual':None}
 ```
 
-This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a configuration that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these postions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
+This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a configuration that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these positions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
 
 Configuration 'look_for_parking'    |  The image from the topic
 :-------------------------:|:-------------------------:
@@ -82,5 +82,5 @@ ros2 topic pub --once /arm_command std_msgs/msg/String "{data: 'manual:[0.,0.6,0
 
 **The arm does not respect the laws of physics**. In order to computationally simplify the simulation and reduce the planning complexity, the arm is not simulated realistically. It has no collision geometry, its mass/inertia is negligible, and its joints have no angle limitations. This can enable you to put the arm in some weird configurations. You are welcomed to play with it, but it has not be extensively tested and some configurations might break the simulation. In evaluation phase, it is best to stick to tested configurations.
 
-**The controller has more capabilities then used**. The `joint_trajectory_controller/JointTrajectoryController` used for controlling the rotations of the joints make the arm follow trajectories, not only reach a single position. The `arm_mover_actions.py` script only sets a single position in the trajectory, but you can modify it to follow a set of consequtive positions. Additionally, you can also change the time in which the controller should reach the position. This is set in the line `point.time_from_start = rclpy.duration.Duration(seconds=3.).to_msg()` in the `arm_mover_actions.py` script.
+**The controller has more capabilities then used**. The `joint_trajectory_controller/JointTrajectoryController` used for controlling the rotations of the joints make the arm follow trajectories, not only reach a single position. The `arm_mover_actions.py` script only sets a single position in the trajectory, but you can modify it to follow a set of consecutive positions. Additionally, you can also change the time in which the controller should reach the position. This is set in the line `point.time_from_start = rclpy.duration.Duration(seconds=3.).to_msg()` in the `arm_mover_actions.py` script.
 `
