@@ -225,7 +225,7 @@ def generate_launch_description():
             output='screen',
             arguments=[
                 '0', '0', '0',
-                '1.5707', '-1.5707', '0',
+                '0.0', '-0.0', '0',
                 'oakd_rgb_camera_optical_frame',
                 [robot_name, '/oakd_rgb_camera_frame/rgbd_camera']
             ],
@@ -242,7 +242,7 @@ def generate_launch_description():
             output='screen',
             arguments=[
                 '0', '0', '0',
-                '1.5707', '-1.5707', '0',
+                '0.0', '-0.0', '0',
                 'top_camera_rgb_camera_optical_frame',
                 [robot_name, '/top_camera_rgb_camera_frame/rgbd_camera']
             ],
