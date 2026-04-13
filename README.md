@@ -11,7 +11,7 @@ This tutorial contains a modified robot, with an added robot arm with a camera. 
 
 All relevant control packages are most probably already installed on your computer. If not, we need the following packages in order for this modified version of the Turtlebot to work:
 ```
-sudo apt install ros-humble-ros2-control ros-humble-ros2-controllers ros-humble-ign-ros2-control
+sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-gz-ros2-control
 ```
 
 ## Start the simulation with the upgraded Turtlebot

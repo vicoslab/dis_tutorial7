@@ -75,7 +75,7 @@ def generate_launch_description():
                 ('/tf', 'tf'),
                 ('/tf_static', 'tf_static')
              ],
-             output='screen'),
+             output='log'),
 
         # Delay launch of robot description to allow Rviz2 to load first.
         # Prevents visual bugs in the model.

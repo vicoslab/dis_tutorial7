@@ -12,10 +12,8 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 from launch_ros.actions import Node
 
 ARGUMENTS = [
-    DeclareLaunchArgument('namespace', default_value='',
-                          description='Robot namespace'),
+    DeclareLaunchArgument('namespace', default_value='', description='Robot namespace'),
 ]
-
 
 def generate_launch_description():
     this_package = get_package_share_directory('dis_tutorial7')
@@ -35,8 +33,7 @@ def generate_launch_description():
     )
 
     load_diffdrive_controller = ExecuteProcess(
-        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active',
-             'diffdrive_controller'],
+        cmd=['ros2', 'control', 'load_controller', '--set-state', 'active', 'diffdrive_controller'],
         output='screen'
     )
 

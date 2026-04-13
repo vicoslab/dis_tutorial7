@@ -52,7 +52,7 @@ def generate_launch_description():
 
     # Paths
     ignition_launch = PathJoinSubstitution(
-        [pkg_dis_tutorial3, 'launch', 'ignition.launch.py'])
+        [pkg_dis_tutorial3, 'launch', 'sim.launch.py'])
     robot_spawn_launch = PathJoinSubstitution(
         [package_dir_robot, 'launch', 'turtlebot4_spawn.launch.py'])
     localization_launch = PathJoinSubstitution(

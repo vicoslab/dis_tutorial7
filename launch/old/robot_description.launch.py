@@ -26,15 +26,25 @@ from launch_ros.actions import Node
 
 
 ARGUMENTS = [
-    DeclareLaunchArgument('model', default_value='standard',choices=['standard', 'lite'],description='Turtlebot4 Model'),
-    DeclareLaunchArgument('use_sim_time', default_value='false',choices=['true', 'false'],description='use_sim_time'),
-    DeclareLaunchArgument('robot_name', default_value='turtlebot4',description='Robot name'),
-    DeclareLaunchArgument('namespace', default_value=LaunchConfiguration('robot_name'),description='Robot namespace'),
+    DeclareLaunchArgument('model', default_value='standard',
+                          choices=['standard', 'lite'],
+                          description='Turtlebot4 Model'),
+    DeclareLaunchArgument('use_sim_time', default_value='false',
+                          choices=['true', 'false'],
+                          description='use_sim_time'),
+    DeclareLaunchArgument('robot_name', default_value='turtlebot4',
+                          description='Robot name'),
+    DeclareLaunchArgument('namespace', default_value=LaunchConfiguration('robot_name'),
+                          description='Robot namespace'),
 ]
 
+
 def generate_launch_description():
-    pkg_dis_tutorial3 = get_package_share_directory('dis_tutorial7')
-    xacro_file = PathJoinSubstitution([pkg_dis_tutorial3,'urdf',LaunchConfiguration('model'),'turtlebot4.urdf.xacro'])
+    pkg_turtlebot4_description = get_package_share_directory('dis_tutorial7')
+    xacro_file = PathJoinSubstitution([pkg_turtlebot4_description,
+                                       'urdf',
+                                       LaunchConfiguration('model'),
+                                       'turtlebot4.urdf.xacro'])
     namespace = LaunchConfiguration('namespace')
 
     robot_state_publisher = Node(
@@ -67,7 +77,9 @@ def generate_launch_description():
         ]
     )
 
+    # Define LaunchDescription variable
     ld = LaunchDescription(ARGUMENTS)
+    # Add nodes to LaunchDescription
     ld.add_action(robot_state_publisher)
-    ld.add_action(joint_state_publisher)
+    # ld.add_action(joint_state_publisher)
     return ld

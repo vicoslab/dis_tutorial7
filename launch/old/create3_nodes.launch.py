@@ -24,12 +24,11 @@ def generate_launch_description():
 
     # Directories
     pkg_create3_common_bringup = get_package_share_directory('irobot_create_common_bringup')
-    pkg_create3_control = get_package_share_directory('irobot_create_control')
-    pkg_dis_tutorial7 = get_package_share_directory('dis_tutorial7')
+    this_package = get_package_share_directory('dis_tutorial7')
 
     # Paths
     control_launch_file = PathJoinSubstitution(
-        [pkg_dis_tutorial7, 'launch', 'control.launch.py'])
+        [this_package, 'launch', 'control.py'])
     hazards_params_yaml_file = PathJoinSubstitution(
         [pkg_create3_common_bringup, 'config', 'hazard_vector_params.yaml'])
     ir_intensity_params_yaml_file = PathJoinSubstitution(
@@ -76,10 +75,7 @@ def generate_launch_description():
         package='irobot_create_nodes',
         name='motion_control',
         executable='motion_control',
-        parameters=[{
-            'use_sim_time': True,
-            'safety_override': 'backup_only'
-        }],
+        parameters=[{'use_sim_time': True}],
         output='screen',
         remappings=[
             ('/tf', 'tf'),
