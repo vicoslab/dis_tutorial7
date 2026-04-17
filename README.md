@@ -1,8 +1,8 @@
 # Tutorial 7: Adding a robot arm and a camera to the Turtlebot4
 
-#### Development of Intelligent Systems, 2024
+#### Development of Intelligent Systems, 2026
 
-This tutorial contains a modified robot, with an added robot arm with a camera. You can move the arm as you wish, placing the camera at a convenient position. This is mainly meant for the parking task and for reading the QR on top of the cylinder, but you are welcome to use it as you wish.
+This tutorial contains a modified robot, with an added robot arm with a high res camera. You can move the arm as you wish, placing the camera at a convenient position to read QR codes, faces, or inspect objects more closely. 
 
 ![](figs/robot_with_arm.png)
 *You should see the robot in this configuration after starting the simulation*
@@ -10,17 +10,24 @@ This tutorial contains a modified robot, with an added robot arm with a camera. 
 ## Install packages
 
 All relevant control packages are most probably already installed on your computer. If not, we need the following packages in order for this modified version of the Turtlebot to work:
-```
+```bash
 sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-gz-ros2-control
 ```
 
+Before starting, also pull and build the latest version of [dis_tutorial3](https://github.com/vicoslab/dis_tutorial3) to get the latest world files.
+
 ## Start the simulation with the upgraded Turtlebot
 
-After you have downloaded and built this package you can start the simulation with:
+After you have downloaded and built this package you can start the simulation with either slam or nav:
 
+```bash
+ros2 launch dis_tutorial7 sim_turtlebot_slam.launch.py
 ```
+
+```bash
 ros2 launch dis_tutorial7 sim_turtlebot_nav.launch.py
 ```
+
 Once the simulation is running you can notice there is an additional camera on top of the robot, as in the above image. This camera can be accessed the same way the `oakd` camera is accessed (the same topics are available), but the prefix is `top_camera`. The arm is controlled by the `arm_controller` controller, which should be started after the `diffdrive_controller`. You can verify that the arm controller is working if, after unpausing the simulation, you see a printout in the terminal `[spawner_arm_controller]: Configured and activated arm_controller` as in the below image:
 
 ![](figs/arm_controller_started.png)
@@ -30,39 +37,43 @@ You can modify the launch file `sim_turtlebot_nav.launch.py` the same as the one
 ## Setting the arm position
 
 The node `arm_mover_actions.py` is a node that you can use to set the arm position in a simple way. The node is communicating with the `arm_controller` through an action interface, just like we set a goal for the robot in the Nav2 stack (tutorials 3 and 4). You can include this node in some launch file, or start it with `ros2 run`:
-```
+
+```bash
 ros2 run dis_tutorial7 arm_mover_actions.py
 ```
 
 This node listens for a command of type `String` on the `/arm_command` topic. Currently, there are four approximate positions that are hard-coded:
-```
-self.arm_poses = {'look_for_parking':[0.,0.4,1.5,1.2],
-                  'look_for_qr':[0.,0.6,0.5,2.0],
-                  'garage':[0.,-0.45,2.8,-0.8],
-                  'up':[0.,0.,0.,0.],
-                  'manual':None}
+```python
+self.arm_poses = {
+    'look_at_belt_right':[-1.57,0.9,0.3,1.7],
+    'look_at_belt_left':[1.57,0.9,0.3,1.7],
+    'look_for_qr':[0.,0.6,0.5,2.0],
+    'garage':[0.,-0.45,2.8,-0.8],
+    'up':[0.,0.,0.,0.],
+    'manual':None
+}
 ```
 
 This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a configuration that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these positions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
 
-Configuration 'look_for_parking'    |  The image from the topic
+Configuration 'look_at_belt_right'    |  The image from the topic
 :-------------------------:|:-------------------------:
-![](figs/arm_look_for_parking.png)  |  ![](figs/arm_camera_image_parking.png)
+![](figs/look_at_belt_right.png)  |  ![](figs/arm_camera_image_parking.png)
 
 The position of the arm should be set from your code, and you can test the positions by using the 'ros2 topic' interface:
-```
+```bash
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: garage}"
 ```
 or
-```
-ros2 topic pub --once /arm_command std_msgs/msg/String "{data: look_for_parking}"
+```bash
+ros2 topic pub --once /arm_command std_msgs/msg/String "{data: look_at_belt_right}"
 ```
 or
-```
+```bash
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: look_for_qr}"
 ```
 or
-```
+```bash
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: up}"
 ```
 
@@ -71,8 +82,10 @@ You can add configurations by simply updating the `self.arm_poses` dictionary.
 ## Setting the arm position 'manually'
 The last key in the dictionary - "manual" is there for debugging purposes, so that you are able to quickly test a configuration of the arm.
 
-Be careful when using the "manual" keyword, as you can easily crash the node with the wrong format message. To set a manual position send a `String` message in the format 'manual:[pos1, pos2, pos3, pos3]' where pos1-4 are floats (the numbers should contain a . ). For example:
-```
+Be careful when using the "manual" keyword, as you can easily crash the node with the wrong format message. To set a manual position send a `String` message in the format 'manual:[pos1, pos2, pos3, pos3]' where pos1-4 are floats (the numbers should contain a . ).
+
+For example:
+```bash
 ros2 topic pub --once /arm_command std_msgs/msg/String "{data: 'manual:[0.,0.6,0.5,2.0]'}"
 ```
 
