@@ -54,7 +54,7 @@ self.arm_poses = {
 }
 ```
 
-This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_for_parking" is a configuration that might be suitable for parking the robot, as seen in the below image. The "look_for_qr" position is a position that might be suitable for reading the QR code on top of the cyllinder. You are highly encouraged to modify these positions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
+This positions are approximate positions that might be suitable for different tasks. The "garage" position is for packing the arm so we do not hit something while driving the robot. The "up" position just sets all the joints to 0. The "look_at_belt_right" is a configuration that might be suitable for defect detection, as seen in the below image. ou are highly encouraged to modify these positions as you see fit! When you start the simulation the arm is in the 'garage' configuration. 
 
 Configuration 'look_at_belt_right'    |  The image from the topic
 :-------------------------:|:-------------------------:
