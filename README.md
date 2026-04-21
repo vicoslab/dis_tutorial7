@@ -16,6 +16,15 @@ sudo apt install ros-jazzy-ros2-control ros-jazzy-ros2-controllers ros-jazzy-gz-
 
 Before starting, also pull and build the latest version of [dis_tutorial3](https://github.com/vicoslab/dis_tutorial3) to get the latest world files.
 
+If the new packages cause issues with the simulation (such as Gazebo crashes), the fix is to locally build `gz-ros2-control` in your workspace:
+
+```bash
+cd ~/colcon_ws/src/
+git clone https://github.com/ros-controls/gz_ros2_control.git -b jazzy
+cd ~/colcon_ws/
+colcon build --symlink-install
+```
+
 ## Start the simulation with the upgraded Turtlebot
 
 After you have downloaded and built this package you can start the simulation with either slam or nav:
